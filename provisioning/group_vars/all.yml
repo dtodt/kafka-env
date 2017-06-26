@@ -1,0 +1,10 @@
+---
+
+jenkins_data: /workspace/jenkins
+jenkins_agent_data: /workspace/jenkins_agent
+registry_data: /workspace/registry
+
+swarm_bind_port: 2377
+swarm_primary_ip: "{{ hostvars['manager1'].ansible_enp0s8.ipv4.address }}"
+swarm_manager_token: "{{ hostvars['manager1'].manager_token }}"
+swarm_worker_token: "{{ hostvars['manager1'].worker_token }}"

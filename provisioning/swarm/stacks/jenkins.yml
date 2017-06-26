@@ -1,0 +1,36 @@
+version: "3.1"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  jenkins:
+    image: jenkins:alpine
+    volumes:
+      - /workspace/jenkins:/var/jenkins_home
+    networks:
+      - proxy
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - 8000:8080
+      - 50000:50000
+
+  jenkins-agent:
+    image: vfarcic/jenkins-swarm-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /workspace/jenkins_agent:/workspace
+    networks:
+      - proxy
+    environment:
+      - JENKINS_IP=jenkins
+      - COMMAND_OPTIONS=-master http://${JENKINS_IP:-192.168.50.201}/jenkins -username ${MASTER_USER:-admin} -password ${MASTER_PASS:-admin} -labels 'docker' -executors 2
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.role == manager]

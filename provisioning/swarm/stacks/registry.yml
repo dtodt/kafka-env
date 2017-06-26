@@ -1,0 +1,21 @@
+version: "3.1"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  private:
+    image: registry:latest
+    volumes:
+      - /workspace/registry:/var/lib/registry
+    networks:
+      - proxy
+    deploy:
+      resources:
+        reservations:
+          memory: 100M
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - '5000:5000'

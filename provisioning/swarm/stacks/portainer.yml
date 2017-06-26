@@ -1,0 +1,19 @@
+version: "3.1"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  main:
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    ports:
+      - "9000:9000"
+    command: -H unix:///var/run/docker.sock

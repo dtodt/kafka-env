@@ -1,0 +1,14 @@
+[mq]
+kafka ansible_user='vagrant'
+
+[swarmmanager]
+manager1 ansible_user='vagrant'
+
+[swarmworker]
+worker1 ansible_user='vagrant'
+worker2 ansible_user='vagrant'
+
+[all_groups:children]
+swarmmanager
+swarmworker
+mq

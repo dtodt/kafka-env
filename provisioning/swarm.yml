@@ -1,0 +1,49 @@
+---
+# file: swarm.yml
+- hosts: manager1
+  become: yes
+  tasks:
+    - name: "Determine swarm status"
+      shell: >
+        docker info | egrep '^Swarm: ' | cut -d ' ' -f2
+      register: swarm_status_result
+    - set_fact:
+        swarm_status: "{{ swarm_status_result.stdout_lines[0] }}"
+
+    - name: "Starting primary swarm manager"
+      shell: >
+        docker swarm init --advertise-addr {{ swarm_primary_ip }}
+      register: init_result
+      when: swarm_status == "inactive"
+
+    - name: "Retrieve manager token"
+      shell: >
+        docker swarm join-token manager --quiet
+      register: manager_token_result
+    - set_fact:
+        manager_token: "{{ manager_token_result.stdout }}"
+
+    - name: "Retrieve worker token"
+      shell: >
+        docker swarm join-token worker --quiet
+      register: worker_token_result
+    - set_fact:
+        worker_token: "{{ worker_token_result.stdout }}"
+
+- hosts: swarmworker
+  become: yes
+  tasks:
+    - name: "Determine swarm status"
+      shell: >
+        docker info | egrep '^Swarm: ' | cut -d ' ' -f2
+      register: swarm_status_result
+    - set_fact:
+        swarm_status: "{{ swarm_status_result.stdout_lines[0] }}"
+
+    - name: "Starting swarm workers"
+      shell: >
+        docker swarm join \
+          --token {{ swarm_worker_token }} \
+          {{ swarm_primary_ip }}:{{ swarm_bind_port }}
+      register: init_result
+      when: swarm_status == "inactive"

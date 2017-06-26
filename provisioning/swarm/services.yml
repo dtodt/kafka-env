@@ -1,0 +1,39 @@
+---
+# file: services.yml
+- hosts: swarmmanager1
+  become: yes
+  tasks:
+    - name: Jenkins directory is present
+      file:
+        path: "{{ jenkins_data }}"
+        state: directory
+        recurse: yes
+
+    - name: Jenkins agent directory is present
+      file:
+        path: "{{ jenkins_agent_data }}"
+        state: directory
+        recurse: yes
+
+    - name: Registry directory is present
+      file:
+        path: "{{ registry_data }}"
+        state: directory
+        recurse: yes
+
+    - name: Create proxy network
+      shell: docker network create --driver overlay proxy
+      run_once: yes
+      ignore_errors: yes
+
+    - name: Setup proxy stack
+      shell: docker stack deploy -c /vagrant/provisioning/swarm/stacks/proxy.yml proxy
+
+    - name: Setup portainer stack
+      shell: docker stack deploy -c /vagrant/provisioning/swarm/stacks/portainer.yml portainer
+
+    - name: Setup registry stack
+      shell: docker stack deploy -c /vagrant/provisioning/swarm/stacks/registry.yml registry
+
+    - name: Setup jenkins stack
+      shell: docker stack deploy -c /vagrant/provisioning/swarm/stacks/jenkins.yml jenkins

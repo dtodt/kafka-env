@@ -1,0 +1,36 @@
+version: "3.0"
+services:
+  kafka:
+    image: spotify/kafka:latest
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - 2181:2181
+      - 9092:9092
+    environment:
+      AUTO_CREATE_TOPICS: 'true'
+      ADVERTISED_HOST: '192.168.50.213'
+      ADVERTISED_PORT: 9092
+      NUM_PARTITIONS: 1
+  consumer:
+    image: dtodt/consumer:latest
+    container_name: consumer
+    hostname: consumer
+    environment:
+      BROKER_ADDRESS: '192.168.50.213:2181'
+    volumes:
+      - /etc/hosts:/etc/hosts
+    links:
+      - kafka:kafka
+      - kafka:zookeeper
+  producer:
+    image: dtodt/producer:latest
+    container_name: producer
+    hostname: producer
+    environment:
+      BROKER_ADDRESS: '192.168.50.213:2181'
+    volumes:
+      - /etc/hosts:/etc/hosts
+    links:
+      - kafka:kafka
+      - kafka:zookeeper
