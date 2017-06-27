@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "kafka-node": "^1.6.2",
+    "node-rdkafka": "^1.0.4"
+  }
+}
