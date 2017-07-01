@@ -1,8 +1,11 @@
-FROM node:8-alpine
+FROM node:8-slim
 MAINTAINER dtodt
 
-ADD package.json /
+ADD . .
 
-RUN apk add --no-cache make gcc g++ python librdkafka && \
-  npm install --production --silent && \
-  apk del make gcc g++ python librdkafka
+RUN apt-get update \
+    && apt-get install -y build-essential python \
+    && npm install --production --silent \
+    && apt-get purge -y build-essential python \
+    && apt-get autoremove -y && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/*

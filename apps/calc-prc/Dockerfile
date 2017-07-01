@@ -3,4 +3,4 @@ MAINTAINER dtodt
 
 ADD . .
 
-CMD ["node", "calculator.js"]
+CMD ["node", "src/calculator.js"]
