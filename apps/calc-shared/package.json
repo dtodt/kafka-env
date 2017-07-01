@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "kafka-node": "^1.6.2",
-    "node-rdkafka": "^1.0.4"
+    "express": "^4.15.3",
+    "node-rdkafka": "^1.0.4",
+    "soap": "^0.19.2"
   }
 }
