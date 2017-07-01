@@ -26,3 +26,20 @@ app.listen(port, function () {
     soap.listen(app, endpoint, services, wsdl);
     console.log('Webservice started at: ' + location);
 });
+
+/**
+ * Starts the communication.
+ */
+services.calculator.calculatorService.add({
+    x: 1,
+    y: 1
+}, (result) => {
+    console.log('Addiction queue connected, result: ' + result);
+});
+
+services.calculator.calculatorService.sub({
+    x: 1,
+    y: 1
+}, (result) => {
+    console.log('Subtraction queue connected, result: ' + result);
+});

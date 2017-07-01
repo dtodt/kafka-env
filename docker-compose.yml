@@ -18,8 +18,6 @@ services:
     hostname: prc
     environment:
       BROKER_ADDRESS: kafka:9092
-    volumes:
-      - /etc/hosts:/etc/hosts
     links:
       - kafka
     depends_on:
@@ -34,8 +32,6 @@ services:
       BROKER_ADDRESS: kafka:9092
       IP: webservice
       PORT: 8000
-    volumes:
-      - /etc/hosts:/etc/hosts
     links:
       - kafka
     depends_on:
