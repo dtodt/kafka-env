@@ -9,26 +9,26 @@ services:
       - 9092:9092
     environment:
       AUTO_CREATE_TOPICS: 'true'
-      ADVERTISED_HOST: '192.168.50.213'
+      ADVERTISED_HOST: '192.168.50.100'
       ADVERTISED_PORT: 9092
       NUM_PARTITIONS: 1
   consumer:
-    image: dtodt/consumer:latest
-    container_name: consumer
-    hostname: consumer
+    image: dtodt/calc-prc:latest
+    container_name: prc
+    hostname: prc
     environment:
-      BROKER_ADDRESS: '192.168.50.213:2181'
+      BROKER_ADDRESS: '192.168.50.100:9092'
     volumes:
       - /etc/hosts:/etc/hosts
     links:
       - kafka:kafka
       - kafka:zookeeper
   producer:
-    image: dtodt/producer:latest
-    container_name: producer
-    hostname: producer
+    image: dtodt/calc-ws:latest
+    container_name: ws
+    hostname: ws
     environment:
-      BROKER_ADDRESS: '192.168.50.213:2181'
+      BROKER_ADDRESS: '192.168.50.100:9092'
     volumes:
       - /etc/hosts:/etc/hosts
     links:
