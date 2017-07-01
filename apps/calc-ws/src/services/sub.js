@@ -4,12 +4,9 @@ const producer = require('../transport/producer').getProducerForTopic('calculato
     consumer = require('../transport/consumer');
 
 module.exports = (args, callback) => {
-    let x = Number(args.x),
-        y = Number(args.y);
-
     let operation = {
-        x,
-        y
+        x: Number(args.x),
+        y: Number(args.y)
     };
 
     producer.write(new Buffer(JSON.stringify(operation)));
