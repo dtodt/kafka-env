@@ -1,0 +1,11 @@
+.DS_Store
+.idea/
+.build/
+.vscode/
+.git/
+node_modules/
+*.iml
+npm-debug.log
+Dockerfile*
+docker-compose*
+.*ignore

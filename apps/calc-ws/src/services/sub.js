@@ -1,21 +1,22 @@
 'use strict';
 
-const transport = require('../transport');
+const producer = require('../transport/producer').getProducerForTopic('calculator.to.sub'),
+    consumer = require('../transport/consumer');
 
-module.exports = (args) => {
+module.exports = (args, callback) => {
     let x = Number(args.x),
         y = Number(args.y);
 
-    Promise.resolve(transport.send({
-        operation: 'sub',
-        value: {
-            x,
-            y
-        }
-    })).then((result) => {
-        console.log(result);
-        return result;
-    }, (err) => {
-        console.log(`error: ${err}`)
+    let operation = {
+        x,
+        y
+    };
+
+    producer.write(new Buffer(JSON.stringify(operation)));
+
+    consumer.subscribeToTopic('calculator.from.sub', (data) => {
+        console.log('calculator.from.sub: ' + data.toString());
+
+        callback(data.toString());
     });
 };
