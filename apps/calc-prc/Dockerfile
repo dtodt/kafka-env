@@ -1,4 +1,4 @@
-FROM dtodt/calc-shared
+FROM dtodt/calc-shared:latest
 MAINTAINER dtodt
 
 ADD . .
