@@ -9,28 +9,34 @@ services:
       - 9092:9092
     environment:
       AUTO_CREATE_TOPICS: 'true'
-      ADVERTISED_HOST: '192.168.50.100'
+      ADVERTISED_HOST: kafka
       ADVERTISED_PORT: 9092
       NUM_PARTITIONS: 1
-  consumer:
+  processor:
     image: dtodt/calc-prc:latest
     container_name: prc
     hostname: prc
     environment:
-      BROKER_ADDRESS: '192.168.50.100:9092'
+      BROKER_ADDRESS: kafka:9092
     volumes:
       - /etc/hosts:/etc/hosts
     links:
-      - kafka:kafka
-      - kafka:zookeeper
-  producer:
+      - kafka
+    depends_on:
+      - kafka
+  webservice:
     image: dtodt/calc-ws:latest
     container_name: ws
     hostname: ws
+    ports:
+      - 8000:8000
     environment:
-      BROKER_ADDRESS: '192.168.50.100:9092'
+      BROKER_ADDRESS: kafka:9092
+      IP: webservice
+      PORT: 8000
     volumes:
       - /etc/hosts:/etc/hosts
     links:
-      - kafka:kafka
-      - kafka:zookeeper
+      - kafka
+    depends_on:
+      - kafka

@@ -8,13 +8,14 @@ const Kafka = require('node-rdkafka');
 /**
  * Kafka zookeeper address.
  */
-const broker = process.env.BROKER_ADDRESS || '192.168.50.100:9092';
+const broker = process.env.BROKER_ADDRESS || '192.168.50.200:9092';
 
 const kafkaGlobalProducerConfig = {
     'metadata.broker.list': broker
 };
 
 function getProducerForTopic(topicName) {
+    console.log(topicName + ' connecting to brokers: ' + broker);
 
     let stream = Kafka.Producer.createWriteStream(kafkaGlobalProducerConfig, {}, {
         topic: topicName
