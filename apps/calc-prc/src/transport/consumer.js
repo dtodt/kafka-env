@@ -8,14 +8,14 @@ const Kafka = require('node-rdkafka');
 /**
  * Kafka zookeeper address.
  */
-const broker = process.env.BROKER_ADDRESS || '192.168.50.200:9092';
+const broker = process.env.BROKER_ADDRESS || '192.168.50.100:9092';
 
 const kafkaGlobalConsumerConfig = {
     'metadata.broker.list': broker,
     'group.id': 'kafka',
     'socket.keepalive.enable': true,
     'enable.auto.commit': true,
-    'auto.commit.interval.ms': 10
+    'auto.commit.interval.ms': 1
 };
 
 function subscribeToTopic(topics, cb) {

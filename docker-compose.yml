@@ -9,15 +9,15 @@ services:
       - 9092:9092
     environment:
       AUTO_CREATE_TOPICS: 'true'
-      ADVERTISED_HOST: kafka
+      ADVERTISED_HOST: '192.168.50.100'
       ADVERTISED_PORT: 9092
-      NUM_PARTITIONS: 1
+      NUM_PARTITIONS: 10
   processor:
     image: dtodt/calc-prc:latest
     container_name: prc
     hostname: prc
     environment:
-      BROKER_ADDRESS: kafka:9092
+      BROKER_ADDRESS: '192.168.50.100:9092'
     links:
       - kafka
     depends_on:
@@ -29,7 +29,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      BROKER_ADDRESS: kafka:9092
+      BROKER_ADDRESS: '192.168.50.100:9092'
       IP: webservice
       PORT: 8000
     links:

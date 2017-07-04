@@ -1,10 +1,10 @@
 'use strict';
 
 const operations = require('./operations'),
-    producer = require('../transport/producer').getProducerForTopic('calculator.from.add'),
+    producer = require('../transport/producer').getProducerForTopic('calculatorFromAdd'),
     consumer = require('../transport/consumer');
 
-consumer.subscribeToTopic('calculator.to.add', (data) => {
+consumer.subscribeToTopic('calculatorToAdd', (data) => {
     console.log('calculator.to.add: ' + data.toString());
 
     let dataParsed = JSON.parse(data.toString());

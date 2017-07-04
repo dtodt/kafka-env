@@ -8,7 +8,7 @@ const Kafka = require('node-rdkafka');
 /**
  * Kafka zookeeper address.
  */
-const broker = process.env.BROKER_ADDRESS || '192.168.50.200:9092';
+const broker = process.env.BROKER_ADDRESS || '192.168.50.100:9092';
 
 const kafkaGlobalProducerConfig = {
     'metadata.broker.list': broker
