@@ -11,7 +11,8 @@ const Kafka = require('node-rdkafka');
 const broker = process.env.BROKER_ADDRESS || '192.168.50.100:9092';
 
 const kafkaGlobalProducerConfig = {
-    'metadata.broker.list': broker
+    'metadata.broker.list': broker,
+    'group.id': 'fromAdd'
 };
 
 function getProducerForTopic(topicName) {

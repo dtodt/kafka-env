@@ -12,7 +12,7 @@ const broker = process.env.BROKER_ADDRESS || '192.168.50.100:9092';
 
 const kafkaGlobalConsumerConfig = {
     'metadata.broker.list': broker,
-    'group.id': 'kafka',
+    'group.id': 'toAdd',
     'socket.keepalive.enable': true,
     'enable.auto.commit': true,
     'auto.commit.interval.ms': 1
